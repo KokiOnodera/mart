@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 
 export const SignupConfirm = () => {
 
   const location = useLocation();
   const userInfo = location.state.userInfo.user;
+  const navigate = useNavigate();
+
 
   const axiosInstance = axios.create({
     headers: {
@@ -26,9 +28,12 @@ export const SignupConfirm = () => {
       },
     })
     .then((response)=> {
-      console.log(this.props)
       console.log(response);
-      //this.props.history.push('/');
+      if (response.data.status === "success") {
+        navigate("/signupComplete")
+      } else {
+        navigate("/error");
+      }
     })
     .catch((error)=> {
       console.error(error);
@@ -72,7 +77,7 @@ export const SignupConfirm = () => {
           </div>
           <div class="mb-8">
           <button type="button" class="w-full text-white bg-stone-600 hover:bg-stone-800 focus:ring-4 focus:outline-none focus:ring-stone-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-stone-600 dark:hover:bg-stone-300 dark:focus:ring-stone-800">
-          <Link to="/signup" state={{ userInfo : {userInfo}}}>入力内容を変更する</Link>
+          <Link to="/signup">入力内容を変更する</Link>
           </button>
           </div>
         </div>
@@ -80,6 +85,4 @@ export const SignupConfirm = () => {
     </div>
 
   );
-
-  
 };

@@ -9,7 +9,10 @@ import { Item } from "./Item"
 
 import { Signup } from "./Signup/Signup";
 import { SignupConfirm } from "./Signup/SignUpConfirm";
+import { SignupComplete } from "./Signup/SingnupComplete";
 
+import { Error } from "./Error";
+import { Page404 } from "./PageNotFound";
 
 function App() {
   return (
@@ -23,6 +26,10 @@ function App() {
           <Route path="/item" element={<Item />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signupConfirm" element={<SignupConfirm />} />
+          <Route path="/signupComplete" element={<SignupComplete />} />
+        
+          <Route path="/error" element={<Error />} />
+          <Route path={`/*`} element={<Page404 />} />
         </Routes>
         
         <Footer />
