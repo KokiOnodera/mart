@@ -7,6 +7,8 @@ import { Footer } from "./Footer"
 import { Search } from "./Search"
 import { Item } from "./Item"
 
+import { Signup } from "./Signup/Signup";
+import { SignupConfirm } from "./Signup/SignUpConfirm";
 
 
 function App() {
@@ -17,8 +19,10 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Top />} />
-          <Route path="/search" element={<Search  />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/item" element={<Item />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signupConfirm" element={<SignupConfirm />} />
         </Routes>
         
         <Footer />
