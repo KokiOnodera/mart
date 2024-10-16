@@ -20,3 +20,18 @@ model user{
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
+
+model item {
+  id Int @id @default(autoincrement())
+  name String
+  maker String
+  star String
+  cost String
+  description String
+  image LONGBLOB
+  category String
+  is_enable bool
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+

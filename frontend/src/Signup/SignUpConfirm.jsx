@@ -16,13 +16,14 @@ export const SignupConfirm = () => {
       "Access-Control-Allow-Origin": "*",
     },
     responseEncoding: 'shift_jis',
+    withCredentials: true,
   })
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axiosInstance({
       method : "GET",
-      url : "http://localhost:8080/signup",
+      url : "https://192.168.0.17:8080/signup",
       params: {
         userInfo,
       },
