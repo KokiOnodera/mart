@@ -14,6 +14,7 @@ var signupRouter = require('./routes/signup');
 var signupValidateRouter = require('./routes/signupValidate');
 var topRouter = require('./routes/top');
 var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
 
 var app = express();
 
@@ -24,7 +25,7 @@ app.set("trust proxy", 1);
 // https://github.com/expressjs/session
 const session = expressSession({
   secret: 'catIsKawaii', // 環境変数で設定などする。今回は省略して固定値
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   rolling: true,
   proxy: false, // reverse proxy経由などの場合はtrueにする。環境で分けるようにする。今回は省略
@@ -70,6 +71,7 @@ app.use('/signup', signupRouter);
 app.use('/signupValidete', signupValidateRouter);
 app.use('/top', topRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

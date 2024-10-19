@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
 
 export const Login = () => {
   const [loginParam, setLoginRequest] = useState({ mail: "", pass: "" });
+
+  const [loginError, setLoginError] = useState({ isError: false, code: "" });
 
   const axiosInstance = axios.create({
     headers: {
@@ -13,13 +15,11 @@ export const Login = () => {
     },
     withCredentials: true,
     crossDomain: true,
-
   })
 
   const loginExecute = (e) => {
     const mail = loginParam.mail;
     const pass = loginParam.pass;
-    e.preventDefault();
     axiosInstance({
       method: "GET",
       url: "https://192.168.0.17:8080/login/",
@@ -27,17 +27,15 @@ export const Login = () => {
         mail,
         pass
       },
-    })
-      .then((response) => {
-        if (response.data.status === "OK") {
-          console.log(response.data.message)
-        } else {
-          console.log(response.data.message)
-        }
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
+    }).then((response) => {
+      if (response.data.status === "OK") {
+        window.location.reload();
+      } else {
+        setLoginError({ ...loginError, isError: true, code: response.data.code });
+      }
+    }).catch((error) => {
+      console.log(error.code);
+    });
   }
 
   return (
@@ -45,6 +43,9 @@ export const Login = () => {
       <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div class="space-y-6">
           <h5 class="text-xl font-medium text-gray-900 dark:text-white">ようこそ、ログインはこちらから</h5>
+          <p class="text-red-500 text-sm">
+            {loginError.isError ? "ログインに失敗しました" : ""}
+          </p>
           <div>
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">メールアドレス</label>
             <input type="email" name="email" id="email"
@@ -71,7 +72,9 @@ export const Login = () => {
             <a href="./" class="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500">パスワードを忘れましたか？</a>
           </div>
           <button type="submit"
-            onClick={loginExecute}
+            onClick={() => {
+              loginExecute();
+            }}
             class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">ログイン</button>
           <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
             登録がお済ではないですか？ <a href="./" class="text-blue-700 hover:underline dark:text-blue-500"><Link to="/signup">登録</Link></a>

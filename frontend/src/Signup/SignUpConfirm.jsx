@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -31,7 +30,7 @@ export const SignupConfirm = () => {
     .then((response)=> {
       console.log(response);
       if (response.data.status === "success") {
-        navigate("/signupComplete")
+        navigate("/signupComplete");
       } else {
         navigate("/error");
       }

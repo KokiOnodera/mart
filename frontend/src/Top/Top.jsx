@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from 'axios';
 
-import { Login } from "./Login/Login";
-import { UserModal } from "./User/UserModal";
+import { Login } from "../Login/Login";
+import { UserModal } from "../User/UserModal";
 
-import IMG from "./apple-watch.png"
+import IMG from "../img/apple-watch.png"
 
 
 export const Top = () => {
 
-  const [user, setUser] = useState({ id: 0 });
+  const [user, setUser] = useState({ id: 0, isLogin: false });
 
   const axiosInstance = axios.create({
     headers: {
@@ -19,17 +18,19 @@ export const Top = () => {
     },
     withCredentials: true,
     crossDomain: true,
-    
   })
 
   // 画面表示時にログインセッション取得
   useEffect(() => {
-    axiosInstance.get("https://192.168.0.17:8080/top").then(res => {
+    axiosInstance({
+      method: "GET",
+      url: "https://192.168.0.17:8080/top",
+    }).then((res) => {
       setUser(res.data.loginData);
-    })
-  }, [])
-
-  console.log(user);
+    }).catch((error) => {
+        console.log(error.code);
+    });
+  },[]);
 
   return (
     <div class="flex min-h-screen bg-slate-50">
@@ -74,8 +75,6 @@ export const Top = () => {
             </div>
 
             {user.id > 0 ? <UserModal user = {user}></UserModal> : <Login></Login>}
-            
-            
           </div>
 
         </div>
